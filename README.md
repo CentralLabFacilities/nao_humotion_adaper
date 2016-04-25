@@ -3,7 +3,7 @@
 ### Installation
 
 You will need to install naoqi-sdk-*-linux64 >= naoqi-sdk-2.1.2.17-linux64
-And you will also need qibuild (https://github.com/aldebaran/qibuild)
+You will also need qibuild (https://github.com/aldebaran/qibuild)
 
 ### Building
 
