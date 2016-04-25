@@ -14,4 +14,5 @@ You will also need qibuild (https://github.com/aldebaran/qibuild)
 
 ### Usage
 
+    export LD_LIBRARY_PATH=$prefix/path/to/naoqi-sdk-*-linux64/lib:$LD_LIBRARY_PATH
     $prefix/bin/nao_humotion_adapter robots_ip_address robots_port
