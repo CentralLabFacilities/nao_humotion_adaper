@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 2.8)
 project(nao_humotion_adapter)
 
 # Define this via command line!
-SET(QI_SDK_DIR "/home/nao/naosystems/nao-object-detection-nightly/opt/naoqi-sdk-2.1.2.17-linux64/")
+# SET(QI_SDK_DIR "/home/nao/naosystems/nao-object-detection-nightly/opt/naoqi-sdk-2.1.2.17-linux64/")
 # -DQI_SDK_DIR=$something
 
 find_package(qibuild)
