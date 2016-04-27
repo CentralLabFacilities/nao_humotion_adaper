@@ -29,3 +29,4 @@
 
 build-sys-linux*
 .idea
+*.user
