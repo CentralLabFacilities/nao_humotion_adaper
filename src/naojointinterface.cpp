@@ -94,7 +94,7 @@ void NaoJointInterface::store_min_max(int id, float min, float max){
 
 void NaoJointInterface::init_joints(){
     store_min_max(ID_NECK_TILT, -30, 25);
-    store_min_max(ID_NECK_PAN, -110, 110);
+    store_min_max(ID_NECK_PAN, -80, 80);
     store_min_max(ID_NECK_ROLL, -1, 1);
     store_min_max(ID_EYES_BOTH_UD, -1, 1);
     store_min_max(ID_EYES_LEFT_LR, -1, 1);
