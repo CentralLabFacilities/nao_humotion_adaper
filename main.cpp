@@ -9,24 +9,32 @@
 #include "naojointinterface.hpp"
 #include <unistd.h>
 
-int main(int argc, char *argv[])
-{
-    NaoJointInterface nji(argv[1], argv[2]);
-    int idx = 0;
+int main(int argc, char *argv[]){
 
-    nji.setHeadPitch(0.0f);
-    nji.setHeadYaw(0.0f);
-    nji.executeMotion();
-    qi::os::sleep(5.0f);
-
-    while(idx<4) {
-        qi::os::sleep(5.0f);
-        nji.setHeadPitch(nji.getRandom(-35.0f, 28.0f));
-        nji.setHeadYaw(nji.getRandom(-50.0f, 50.0f));
-        nji.executeMotion();
-        idx++;
+    if (argc != 4){
+        printf("> ERROR: Invalid number of parameters passed to server!\n\n");
+        printf("USAGE   : %s <humotion base topic> <robot_ip> <robot_port> \n\n",argv[0]);
+        printf("EXAMPLE : %s /nao 192.168.1.2 1234 \n\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
 
-    return 0;
+    std::string humotion_scope = argv[1];
 
+    NaoJointInterface *jointinterface = new NaoJointInterface(argv[2], argv[3]);
+    jointinterface->incoming_jointstates();
+    humotion::server::Server *humotion_server = new humotion::server::Server(humotion_scope, "ROS", jointinterface);
+
+    jointinterface->run();
+
+    while(humotion_server->ok()){
+        usleep(1000*10);
+        jointinterface->incoming_jointstates();
+    }
+
+    jointinterface->shutdown();
+
+    printf(">>> ROS Connection closed, exiting now.\n");
+
+    return 0;
 }
+

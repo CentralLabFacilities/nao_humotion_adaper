@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <name>nao_humotion_server</name>
+  <version>0.0.1</version>
+  <description>humotion server for the NAO</description>
+  <maintainer email="flier@techfak.uni-bielefeld.de">Florian Lier</maintainer>
+  <license>BSD</license>
+  <url type="website">TODO</url> -->
+  <author  email="flier@techfak.uni-bielefeld.de">Florian Lier</author>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <export>
+  </export>
+</package>
