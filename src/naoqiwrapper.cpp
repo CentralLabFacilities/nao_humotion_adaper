@@ -13,7 +13,7 @@ NaoQiWrapper::NaoQiWrapper(std::string _robot_ip, std::string _robot_port) {
     std::cout << ">>> Using Robot " << _robot_ip << ":" << std::atoi(_robot_port.c_str()) << std::endl;
     motion = new AL::ALMotionProxy(_robot_ip, std::atoi(_robot_port.c_str()));
     robot_posture = new AL::ALRobotPostureProxy(robot_ip);
-    fractionMaxSpeed = 0.3f;
+    fractionMaxSpeed = 0.05f;
     joints = AL::ALValue::array("HeadYaw", "HeadPitch");
     angles = AL::ALValue::array(0.0f, 0.0f);
     stiff = AL::ALValue::array(1.0f, 1.0f);
