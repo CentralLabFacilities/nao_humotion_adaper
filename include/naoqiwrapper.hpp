@@ -18,6 +18,7 @@
 // NAO
 #include <iostream>
 #include <alproxies/almotionproxy.h>
+#include <alproxies/alrobotpostureproxy.h>
 #include <qi/os.hpp>
 
 
@@ -34,6 +35,8 @@ public:
     float getRandom(float _min, float _max);
     void executeMotion();
     void shutdown();
+    void wake();
+    void rest();
 private:
     void setStiff(float _stiff);
     float degreeToRad(float _angle);
@@ -42,6 +45,7 @@ private:
     std::vector<float> sensor_angles;
     std::string robot_ip;
     AL::ALMotionProxy *motion;
+    AL::ALRobotPostureProxy *robot_posture;
     AL::ALValue joints;
     AL::ALValue angles;
     AL::ALValue stiff;
