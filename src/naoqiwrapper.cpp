@@ -13,17 +13,17 @@ NaoQiWrapper::NaoQiWrapper(std::string _robot_ip, std::string _robot_port) {
     std::cout << ">>> Using Robot " << _robot_ip << ":" << std::atoi(_robot_port.c_str()) << std::endl;
     motion = new AL::ALMotionProxy(_robot_ip, std::atoi(_robot_port.c_str()));
     robot_posture = new AL::ALRobotPostureProxy(robot_ip);
-    fractionMaxSpeed = 0.05f;
+    fractionMaxSpeed = 0.03f;
     joints = AL::ALValue::array("HeadYaw", "HeadPitch");
     angles = AL::ALValue::array(0.0f, 0.0f);
     stiff = AL::ALValue::array(1.0f, 1.0f);
     motion->setFallManagerEnabled(true);
     motion->setSmartStiffnessEnabled(true);
     wake();
-    setStiff(1.0f);
+    setStiff(0.5f);
     motion->setStiffnesses(joints, stiff);
-    std::cout << ">>> Setting Stiffness to 1.0" << std::endl;
-    robot_posture->goToPosture("Stand", 0.5f);
+    std::cout << ">>> Setting Stiffness to 0.5" << std::endl;
+    robot_posture->goToPosture("Stand", 0.7f);
     std::cout << ">>> Standing Up" << std::endl;
     motion->moveInit();
     AL::ALValue breathConfig;
@@ -31,7 +31,7 @@ NaoQiWrapper::NaoQiWrapper(std::string _robot_ip, std::string _robot_port) {
     AL::ALValue tmp;
     tmp.arraySetSize(2);
     tmp[0] = "Bpm";
-    tmp[1] = 10.0f;
+    tmp[1] = 7.0f;
     breathConfig[0] = tmp;
     tmp[0] = "Amplitude";
     tmp[1] = 1.0f;
@@ -69,9 +69,22 @@ void NaoQiWrapper::setStiff(float _stiff) {
 }
 
 void NaoQiWrapper::executeMotion() {
-    motion->setAngles(joints, angles, fractionMaxSpeed);
-    // std::cout << "Executing Motion" << std::endl;
+    if (skip == false) {
+        motion->setAngles(joints, angles, fractionMaxSpeed);
+        skip = true;
+        return;
+    } else {
+        skip = false;
+        return;
+    }
 }
+
+//void NaoQiWrapper::executeMotion() {
+//    if (divider % 5 == 0) {
+//        motion->setAngles(joints, angles, fractionMaxSpeed);
+//    }
+//    divider++;
+//}
 
 float NaoQiWrapper::degreeToRad(float _angle){
     return (_angle * M_PI) / 180;

@@ -42,6 +42,8 @@ private:
     float degreeToRad(float _angle);
     float fractionMaxSpeed;
     bool useSensors = true;
+    bool skip = true;
+    int divider = 0;
     std::vector<float> sensor_angles;
     std::string robot_ip;
     AL::ALMotionProxy *motion;
