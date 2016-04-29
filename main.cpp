@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
 
     while(humotion_server->ok()){
         jointinterface->incoming_jointstates();
-        usleep(1000*15);
+        usleep(1000*20);
     }
 
     jointinterface->shutdown();

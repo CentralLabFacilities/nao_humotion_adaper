@@ -19,6 +19,7 @@
 #include <iostream>
 #include <alproxies/almotionproxy.h>
 #include <alproxies/alrobotpostureproxy.h>
+#include <alproxies/almemoryproxy.h>
 #include <qi/os.hpp>
 
 
@@ -29,25 +30,30 @@ public:
     ~NaoQiWrapper();
     void setHeadYaw(float _yaw);
     void setHeadPitch(float _pitch);
-    float getHeadPitch();
-    float getHeadYaw();
+    void printDataList();
     void setFractionSpeed(float _speed);
-    float getRandom(float _min, float _max);
     void executeMotion();
     void shutdown();
     void wake();
     void rest();
+    float getHeadPitch();
+    float getHeadYaw();
+    float getHeadPitchVelocity();
+    float getHeadYawVelocity();
+    float getRandom(float _min, float _max);
 private:
     void setStiff(float _stiff);
     float degreeToRad(float _angle);
     float fractionMaxSpeed;
-    bool useSensors = true;
+    bool useSensors = false;
     bool skip = true;
     int divider = 0;
+    int robot_port;
     std::vector<float> sensor_angles;
     std::string robot_ip;
     AL::ALMotionProxy *motion;
     AL::ALRobotPostureProxy *robot_posture;
+    AL::ALMemoryProxy *memory_proxy;
     AL::ALValue joints;
     AL::ALValue angles;
     AL::ALValue stiff;

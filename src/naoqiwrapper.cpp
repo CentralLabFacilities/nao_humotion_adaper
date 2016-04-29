@@ -10,20 +10,22 @@
 
 NaoQiWrapper::NaoQiWrapper(std::string _robot_ip, std::string _robot_port) {
     robot_ip = _robot_ip;
+    robot_port = std::atoi(_robot_port.c_str());
     std::cout << ">>> Using Robot " << _robot_ip << ":" << std::atoi(_robot_port.c_str()) << std::endl;
-    motion = new AL::ALMotionProxy(_robot_ip, std::atoi(_robot_port.c_str()));
-    robot_posture = new AL::ALRobotPostureProxy(robot_ip);
-    fractionMaxSpeed = 0.02f;
+    motion = new AL::ALMotionProxy(robot_ip, robot_port);
+    robot_posture = new AL::ALRobotPostureProxy(robot_ip, robot_port);
+    memory_proxy = new AL::ALMemoryProxy(robot_ip, robot_port);
+    fractionMaxSpeed = 0.022f;
     joints = AL::ALValue::array("HeadYaw", "HeadPitch");
     angles = AL::ALValue::array(0.0f, 0.0f);
     stiff = AL::ALValue::array(1.0f, 1.0f);
     motion->setFallManagerEnabled(true);
     motion->setSmartStiffnessEnabled(true);
     wake();
-    setStiff(0.5f);
+    setStiff(1.0f);
     motion->setStiffnesses(joints, stiff);
-    std::cout << ">>> Setting Stiffness to 0.5" << std::endl;
-    robot_posture->goToPosture("Stand", 0.7f);
+    std::cout << ">>> Setting Stiffness to 1.0" << std::endl;
+    robot_posture->goToPosture("Stand", 0.5f);
     std::cout << ">>> Standing Up" << std::endl;
     motion->moveInit();
     AL::ALValue breathConfig;
@@ -34,7 +36,7 @@ NaoQiWrapper::NaoQiWrapper(std::string _robot_ip, std::string _robot_port) {
     tmp[1] = 7.0f;
     breathConfig[0] = tmp;
     tmp[0] = "Amplitude";
-    tmp[1] = 1.0f;
+    tmp[1] = 0.9f;
     breathConfig[1] = tmp;
     motion->setBreathConfig(breathConfig);
     motion->setBreathEnabled("Body", true);
@@ -48,6 +50,18 @@ float NaoQiWrapper::getHeadPitch(){
 
 float NaoQiWrapper::getHeadYaw(){
     return motion->getAngles("HeadYaw", useSensors)[0];
+}
+
+void NaoQiWrapper::printDataList() {
+    std::cout << memory_proxy->getDataList("Head") << std::endl;
+}
+
+float NaoQiWrapper::getHeadPitchVelocity() {
+    return memory_proxy->getData("Motion/Velocity/Sensor/HeadPitch");
+}
+
+float NaoQiWrapper::getHeadYawVelocity() {
+    return memory_proxy->getData("Motion/Velocity/Sensor/HeadYaw");
 }
 
 void NaoQiWrapper::setHeadYaw(float _yaw) {

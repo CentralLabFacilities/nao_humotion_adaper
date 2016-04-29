@@ -30,16 +30,13 @@ NaoJointInterface::~NaoJointInterface(){
 
 void NaoJointInterface::incoming_jointstates() {
 
-    //fetch current timestamp
     humotion::Timestamp timestamp = humotion::Timestamp::now();
 
     JointInterface::store_incoming_position(ID_NECK_TILT, nji->getHeadPitch(), timestamp);
-    // std::cout << ">>> NAO PITCH: " << nji->getHeadPitch() << std::endl;
-    JointInterface::store_incoming_velocity(ID_NECK_TILT, 0.1, timestamp);
+    JointInterface::store_incoming_velocity(ID_NECK_TILT, nji->getHeadPitchVelocity(), timestamp);
 
     JointInterface::store_incoming_position(ID_NECK_PAN, nji->getHeadYaw(), timestamp);
-    // std::cout << ">>> NAO YAW: " << nji->getHeadYaw() << std::endl;
-    JointInterface::store_incoming_velocity(ID_NECK_PAN, 0.1, timestamp);
+    JointInterface::store_incoming_velocity(ID_NECK_PAN, nji->getHeadYawVelocity(), timestamp);
 
     store_dummy_data(ID_LIP_LEFT_UPPER, timestamp);
     store_dummy_data(ID_LIP_LEFT_LOWER, timestamp);
@@ -94,7 +91,7 @@ void NaoJointInterface::store_min_max(int id, float min, float max){
 
 void NaoJointInterface::init_joints(){
     store_min_max(ID_NECK_TILT, -30, 25);
-    store_min_max(ID_NECK_PAN, -80, 80);
+    store_min_max(ID_NECK_PAN, -100, 100);
     store_min_max(ID_NECK_ROLL, -1, 1);
     store_min_max(ID_EYES_BOTH_UD, -1, 1);
     store_min_max(ID_EYES_LEFT_LR, -1, 1);
