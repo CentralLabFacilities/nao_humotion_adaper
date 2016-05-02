@@ -45,7 +45,7 @@ private:
     void setStiff(float _stiff);
     float degreeToRad(float _angle);
     float fractionMaxSpeed;
-    bool useSensors = false;
+    bool useSensors = true;
     bool skip = true;
     int divider = 0;
     int robot_port;
